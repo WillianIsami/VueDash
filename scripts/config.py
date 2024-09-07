@@ -3,7 +3,6 @@ import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-print(BASE_DIR)
 
 env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, './scripts/.env'))
@@ -15,4 +14,3 @@ DATABASE = {
     'host': env('DATABASE_HOST'),
     'port': env('DATABASE_PORT'),
 }
-print(DATABASE)
