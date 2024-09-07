@@ -1,8 +1,6 @@
 .DS_Store
 .fleet
-.idea
 node_modules
-dist
 TODOs.md
 
 # local env files

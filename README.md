@@ -25,3 +25,7 @@ Locally preview production build:
 ```bash
 npm run preview
 ```
+
+## Dataset
+
+- dataset used to insert it into the database https://www.kaggle.com/datasets/arashnic/book-recommendation-dataset

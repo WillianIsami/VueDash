@@ -1,0 +1,29 @@
+services:
+  nuxt-app:
+    container_name: nuxt-app-container
+    build: ./
+    ports:
+      - '3000:3000'
+    env_file:
+      - ./.env
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres-container
+    environment:
+      POSTGRES_USER: dashUser
+      POSTGRES_PASSWORD: dashPassword
+      POSTGRES_DB: vuedash
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+    driver: local
