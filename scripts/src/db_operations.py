@@ -19,6 +19,20 @@ class DatabaseManager:
             cursor.execute(query)
         self.conn.commit()
         print("Tables created")
+    
+    def fetch_existing_ids(self, table_name, column_name):
+        """
+        Retorna uma lista de IDs existentes de uma tabela específica.
+        :param table_name: nome da tabela
+        :param column_name: nome da coluna da chave primária (ex: 'user_id', 'isbn')
+        :return: lista de IDs existentes
+        """
+        query = f"SELECT {column_name} FROM {table_name};"
+        cursor = self.conn.cursor()
+        cursor.execute(query)
+        result = cursor.fetchall()
+        return [row[0] for row in result]  # Retorna uma lista de valores da coluna
+
 
     def insert_values_into_table(self, table_name, column_mappings, df):
         """
