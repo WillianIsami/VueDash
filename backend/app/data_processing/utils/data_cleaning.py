@@ -44,6 +44,7 @@ class DataCleaner:
                 self.df = self.df.drop_duplicates(subset=[col])
         print("DEBUGGING DROP DUPLICATES:", self.df.shape)
     
+        # Drop zero values in specified columns
         if "remove_zeros" in cleaning_rules:
             for col in cleaning_rules["remove_zeros"]:
                 self.df = self.df[self.df[col] != 0]
@@ -64,8 +65,5 @@ class DataCleaner:
                     self.df[col] = self.df[col].astype(str)
         print("DEBUGGING DROP CONVERT:", self.df.shape)
 
-        print("Data after cleaning:", self.df.shape)
-
-        self.df.to_csv(self.result_path, index=False)
         print(f"Cleaned data saved to {self.result_path}")
-        return pd.read_csv(self.result_path)
+        return self.df

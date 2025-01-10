@@ -1,11 +1,15 @@
 name: vuedash_3.12
 channels:
+  - anaconda
+  - conda-forge
   - defaults
   - https://repo.anaconda.com/pkgs/main
   - https://repo.anaconda.com/pkgs/r
 dependencies:
   - _libgcc_mutex=0.1
   - _openmp_mutex=5.1
+  - annotated-types=0.6.0
+  - anyio=4.6.2
   - asttokens=2.0.5
   - blas=1.0
   - bottleneck=1.4.2
@@ -13,28 +17,44 @@ dependencies:
   - brotli-bin=1.0.9
   - bzip2=1.0.8
   - c-ares=1.19.1
-  - ca-certificates=2024.11.26
+  - ca-certificates=2024.12.31
+  - certifi=2024.12.14
+  - cffi=1.17.1
+  - click=8.1.7
   - comm=0.2.1
   - contourpy=1.3.1
+  - cryptography=43.0.3
   - cycler=0.11.0
   - cyrus-sasl=2.1.28
   - dbus=1.13.18
   - debugpy=1.6.7
   - decorator=5.1.1
+  - dnspython=2.4.2
+  - email-validator=2.2.0
+  - email_validator=2.2.0
   - executing=0.8.3
   - expat=2.6.4
+  - fastapi=0.115.6
+  - fastapi-cli=0.0.7
   - fontconfig=2.14.1
   - fonttools=4.51.0
   - freetype=2.12.1
   - glib=2.78.4
   - glib-tools=2.78.4
+  - greenlet=3.1.1
   - gst-plugins-base=1.14.1
   - gstreamer=1.14.1
+  - h11=0.14.0
+  - httpcore=1.0.2
+  - httptools=0.6.4
+  - httpx=0.27.0
   - icu=73.1
+  - idna=3.7
   - intel-openmp=2023.1.0
   - ipykernel=6.29.5
   - ipython=8.30.0
   - jedi=0.19.2
+  - jinja2=3.1.4
   - joblib=1.4.2
   - jpeg=9e
   - jupyter_client=8.6.0
@@ -72,14 +92,18 @@ dependencies:
   - libstdcxx-ng=11.2.0
   - libtiff=4.5.1
   - libuuid=1.41.5
+  - libuv=1.48.0
   - libwebp-base=1.3.2
   - libxcb=1.15
   - libxkbcommon=1.0.1
   - libxml2=2.13.5
   - lz4-c=1.9.4
+  - markdown-it-py=2.2.0
+  - markupsafe=2.1.3
   - matplotlib=3.9.2
   - matplotlib-base=3.9.2
   - matplotlib-inline=0.1.6
+  - mdurl=0.1.0
   - mkl=2023.1.0
   - mkl-service=2.4.0
   - mkl_fft=1.3.11
@@ -107,39 +131,62 @@ dependencies:
   - psutil=5.9.0
   - ptyprocess=0.7.0
   - pure_eval=0.2.2
+  - pycparser=2.21
+  - pydantic=2.10.3
+  - pydantic-core=2.27.1
+  - pydantic-settings=2.7.1
   - pygments=2.15.1
   - pyparsing=3.2.0
   - pyqt=5.15.10
   - pyqt5-sip=12.13.0
   - python=3.12.8
   - python-dateutil=2.9.0post0
+  - python-dotenv=0.21.0
+  - python-multipart=0.0.9
   - python-tzdata=2023.3
   - pytz=2024.1
+  - pyyaml=6.0.2
   - pyzmq=26.2.0
   - qt-main=5.15.2
   - readline=8.2
+  - rich=13.9.4
+  - rich-toolkit=0.11.3
   - scikit-learn=1.5.2
   - scipy=1.14.1
   - seaborn=0.13.2
   - setuptools=72.1.0
+  - shellingham=1.5.0
   - sip=6.7.12
   - six=1.16.0
+  - sniffio=1.3.0
+  - sqlalchemy=2.0.34
   - sqlite=3.45.3
   - stack_data=0.2.0
+  - starlette=0.41.3
   - tbb=2021.8.0
   - threadpoolctl=3.5.0
   - tk=8.6.14
   - tornado=6.4.2
   - traitlets=5.14.3
+  - typer=0.15.1
+  - typer-slim=0.15.1
+  - typer-slim-standard=0.15.1
+  - typing-extensions=4.12.2
+  - typing_extensions=4.12.2
   - tzdata=2024b
   - unicodedata2=15.1.0
+  - uvicorn=0.32.1
+  - uvicorn-standard=0.32.1
+  - uvloop=0.21.0
+  - watchfiles=0.24.0
   - wcwidth=0.2.5
+  - websockets=10.4
   - wheel=0.44.0
   - xz=5.4.6
+  - yaml=0.2.5
   - zeromq=4.3.5
   - zlib=1.2.13
   - zstd=1.5.6
   - pip:
       - psycopg2-binary==2.9.10
-      - python-environ==0.4.54
       - scikit-surprise==1.1.4
