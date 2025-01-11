@@ -46,15 +46,10 @@ def main():
                 title TEXT NOT NULL,
                 author TEXT NOT NULL,
                 year_published INTEGER NOT NULL,
-                publisher TEXT NOT NULL
-            );
-        """,
-        'book_img_url': """
-            CREATE TABLE IF NOT EXISTS book_img_url (
-                isbn VARCHAR(20) PRIMARY KEY REFERENCES books(isbn) ON DELETE CASCADE,
-                small VARCHAR(255),
-                medium VARCHAR(255),
-                large VARCHAR(255)
+                publisher TEXT NOT NULL,
+                img_small VARCHAR(255),
+                img_medium VARCHAR(255),
+                img_large VARCHAR(255)
             );
         """,
         'user_table_query': """
@@ -72,7 +67,6 @@ def main():
                 PRIMARY KEY (user_id, isbn)
             );
         """
-        # ... other table queries
     }
 
     column_mapping_queries = {
@@ -81,13 +75,10 @@ def main():
             'Book-Title': 'title',
             'Book-Author': 'author',
             'Year-Of-Publication': 'year_published',
-            'Publisher': 'publisher'
-        },
-        'book_img_url_column_mappings': {
-            'ISBN': 'isbn',
-            'Image-URL-S': 'small',
-            'Image-URL-M': 'medium',
-            'Image-URL-L': 'large'
+            'Publisher': 'publisher',
+            'Image-URL-S': 'img_small',
+            'Image-URL-M': 'img_medium',
+            'Image-URL-L': 'img_large'
         },
         'users_column_mappings': {
             'User-ID': 'user_id',
@@ -114,7 +105,6 @@ def main():
         book_cleaner.read_csv()
         df_books = book_cleaner.get_clean_data(cleaning_rules['books'])
         db_manager.insert_values_into_table('books', column_mapping_queries['books_column_mappings'], df_books)
-        db_manager.insert_values_into_table('book_img_url', column_mapping_queries['book_img_url_column_mappings'], df_books)
 
         # Process users
         user_cleaner = DataCleaner(user_paths['raw'], user_paths['filtered'])

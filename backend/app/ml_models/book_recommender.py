@@ -49,7 +49,7 @@ class BookRecommender:
         self.book_similarity_matrix = cosine_similarity(self.user_book_matrix.T)
         self.book_indices = {isbn: idx for idx, isbn in enumerate(self.user_book_matrix.columns)}
         
-    def get_similar_books(self, isbn, n_recommendations=5):
+    def get_similar_books(self, isbn, limit=5, offset=0):
         """Get similar books based on user rating patterns"""
         if isbn not in self.book_indices:
             return []
@@ -57,9 +57,10 @@ class BookRecommender:
         idx = self.book_indices[isbn]
         sim_scores = list(enumerate(self.book_similarity_matrix[idx]))
         sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
-        sim_scores = sim_scores[1:n_recommendations+1]
-        
-        book_indices = [i[0] for i in sim_scores]
+        sim_scores = sim_scores[1:]
+
+        sim_scores_paginated = sim_scores[offset:offset + limit]
+        book_indices = [i[0] for i in sim_scores_paginated]
         recommended_isbns = self.user_book_matrix.columns[book_indices]
         
         recommendations = []
@@ -70,12 +71,15 @@ class BookRecommender:
                 'Title': book_info['Book-Title'],
                 'Author': book_info['Book-Author'],
                 'Year': book_info['Year-Of-Publication'],
-                'Similarity Score': sim_scores[book_indices.index(self.book_indices[rec_isbn])][1]
+                'Similarity Score': sim_scores[book_indices.index(self.book_indices[rec_isbn])][1],
+                'Image-URL-S': book_info['Image-URL-S'],
+                'Image-URL-M': book_info['Image-URL-M'],
+                'Image-URL-L': book_info['Image-URL-L'],
             })
             
         return recommendations
     
-    def get_user_recommendations(self, user_id, n_recommendations=5):
+    def get_user_recommendations(self, user_id, limit=5, offset=0):
         """Get personalized book recommendations for a user"""
         if user_id not in self.user_book_matrix.index:
             return []
@@ -94,7 +98,7 @@ class BookRecommender:
         weighted_scores[np.array([self.book_indices[isbn] for isbn in rated_books])] = -1
         
         # Get top recommendations
-        top_indices = weighted_scores.argsort()[-n_recommendations:][::-1]
+        top_indices = weighted_scores.argsort()[::-1][offset:offset + limit]
         recommended_isbns = self.user_book_matrix.columns[top_indices]
         
         recommendations = []
@@ -105,9 +109,33 @@ class BookRecommender:
                 'Title': book_info['Book-Title'],
                 'Author': book_info['Book-Author'],
                 'Year': book_info['Year-Of-Publication'],
-                'Predicted Rating': weighted_scores[self.book_indices[rec_isbn]]
+                'Predicted Rating': weighted_scores[self.book_indices[rec_isbn]],
+                'Image-URL-S': book_info['Image-URL-S'],
+                'Image-URL-M': book_info['Image-URL-M'],
+                'Image-URL-L': book_info['Image-URL-L'],
             })
             
+        return recommendations
+
+    def recommend_for_new_user(self, limit=5, offset=0):
+        """Recommend books for a new user who has not rated any books"""
+        # Get popular books (e.g., books with most ratings)
+        book_counts = self.ratings_df['ISBN'].value_counts()
+        popular_books = book_counts.index[offset:offset + limit]
+        
+        recommendations = []
+        for isbn in popular_books:
+            book_info = self.books_df[self.books_df['ISBN'] == isbn].iloc[0]
+            recommendations.append({
+                'ISBN': isbn,
+                'Title': book_info['Book-Title'],
+                'Author': book_info['Book-Author'],
+                'Year': book_info['Year-Of-Publication'],
+                'Image-URL-S': book_info['Image-URL-S'],
+                'Image-URL-M': book_info['Image-URL-M'],
+                'Image-URL-L': book_info['Image-URL-L'],
+            })
+        
         return recommendations
 
     def save_model(self, filepath):

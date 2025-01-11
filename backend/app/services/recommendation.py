@@ -27,18 +27,46 @@ class RecommendationService:
 
     @classmethod
     async def get_similar_books(
-        cls, isbn: str, n_recommendations: int = 5
+        cls, isbn: str, limit: int = 5, offset: int = 0
     ) -> List[RecommendationResponse]:
         model = cls.get_model()
         try:
-            recommendations = model.get_similar_books(isbn, n_recommendations)
+            recommendations = model.get_similar_books(isbn, limit, offset)
             return [
                 RecommendationResponse(
                     isbn=rec['ISBN'],
                     title=rec['Title'],
                     author=rec['Author'],
                     year=rec['Year'],
-                    similarity_score=rec['Similarity Score']
+                    image_small=rec['Image-URL-S'],
+                    image_medium=rec['Image-URL-M'],
+                    image_large=rec['Image-URL-L'],
+                    similarity_score=rec['Similarity Score'],
+                )
+                for rec in recommendations
+            ]
+        except Exception as e:
+            raise HTTPException(
+                status_code=404,
+                detail=f"Error getting recommendations: {str(e)}"
+            )
+        
+    @classmethod
+    async def recommend_for_new_user(
+        cls, limit: int = 5, offset: int = 0
+    ) -> List[RecommendationResponse]:
+        model = cls.get_model()
+        try:
+            recommendations = model.recommend_for_new_user(limit, offset)
+            return [
+                RecommendationResponse(
+                    isbn=rec['ISBN'],
+                    title=rec['Title'],
+                    author=rec['Author'],
+                    year=rec['Year'],
+                    image_small=rec['Image-URL-S'],
+                    image_medium=rec['Image-URL-M'],
+                    image_large=rec['Image-URL-L'],
                 )
                 for rec in recommendations
             ]
@@ -50,18 +78,21 @@ class RecommendationService:
 
     @classmethod
     async def get_user_recommendations(
-        cls, user_id: int, n_recommendations: int = 5
+        cls, user_id: int, limit: int = 5, offset: int = 0
     ) -> List[RecommendationResponse]:
         model = cls.get_model()
         try:
-            recommendations = model.get_user_recommendations(user_id, n_recommendations)
+            recommendations = model.get_user_recommendations(user_id, limit, offset)
             return [
                 RecommendationResponse(
                     isbn=rec['ISBN'],
                     title=rec['Title'],
                     author=rec['Author'],
                     year=rec['Year'],
-                    predicted_rating=rec['Predicted Rating']
+                    image_small=rec['Image-URL-S'],
+                    image_medium=rec['Image-URL-M'],
+                    image_large=rec['Image-URL-L'],
+                    predicted_rating=rec['Predicted Rating'],
                 )
                 for rec in recommendations
             ]
